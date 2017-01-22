@@ -18,7 +18,6 @@ while converging(condition)
     player_busted = false;
     dealer_busted = false;
     
-    
     if sum(dealers_cards) == 21
         dealer_blackjack = true;
     end
@@ -62,7 +61,8 @@ while converging(condition)
     
     dealers_turn = true;
     while dealers_turn && neither_have_busted
-        if sum(dealers_cards) <= sum(players_cards) && sum(dealers_cards ~= 21)
+        
+        if sum(dealers_cards) <= sum(players_cards) && sum(dealers_cards) ~= 21
             [new_card, deck] = hit(deck);
             dealers_cards = [dealers_cards; new_card];
             
@@ -70,7 +70,9 @@ while converging(condition)
                 neither_have_busted = false;
                 dealer_busted = true;
                 fprintf('Dealer busts. You win\n')
-            end
+            elseif sum(dealers_cards) == 21
+                fprintf('Dealer draws blackjack. You lose')
+                % reward -= 1
         else
             fprintf('Dealer''s hand wins\n')
             dealers_turn = false;
