@@ -71,6 +71,7 @@ while converging(condition)
             elseif sum(dealers_cards) == 21
                 fprintf('Dealer''s blackjack. You lose')
                 % reward -= 1
+                dealers_turn = false;
             end
         else
             fprintf('Dealer''s hand wins\n')
