@@ -19,52 +19,68 @@ while converging(condition)
     dealer_busted = false;
     
     
-    if sum(dealers_cards) == 21 || sum(players_cards) == 21
-        if sum(players_cards) == 21
-            fprintf('It was a draw')
-            
-            % reward of 0
+    if sum(dealers_cards) == 21
+        dealer_blackjack = true;
+    end
+    
+    if sum(players_cards) == 21
+        player_blackjack = true;
+    end
+    
+    if player_blackjack || dealer_blackjack
+        if player_blackjack && ~dealer_blackjack
+            fprintf('You win with an opening blackjack')
+            % reward += 1
+            continue
+        elseif ~player_black && dealer_blackjack
+            fprintf('Dealer wins with an opening blackjack')
+            % reward -= 1
             continue
         else
-            
+            fprintf('Draw')
+            % neutral reward
+            continue
         end
-        players_turn = true;
-        while players_turn && neither_have_busted
-            if enticed(dealer_faceup, players_cards)
-                [new_card, deck] = hit(deck);
-                players_cards = check_for_ace([players_cards; new_card]);
-                
-                if sum(players_cards) > 21
-                    neither_have_busted = false;
-                    player_busted = true;
-                    fprintf('You busted.\n')
-                end
-            else
-                players_turn = false;
-            end
-        end
-        
-        dealers_turn = true;
-        while dealers_turn && neither_have_busted
-            if sum(dealers_cards) <= sum(players_cards) && sum(dealers_cards ~= 21)
-                [new_card, deck] = hit(deck);
-                dealers_cards = [dealers_cards; new_card];
-                
-                if sum(dealers_cards) > 21
-                    neither_have_busted = false;
-                    dealer_busted = true;
-                    fprintf('Dealer busts. You win\n')
-                end
-            else
-                fprintf('Dealer''s hand wins\n')
-                dealers_turn = false;
-            end
-        end
-        
     end
-    fprintf('done\n')
-    %for list of rules
-    %http://wizardofodds.com/games/blackjack/basics/
+        
     
-    %to-do: overload sum function to account for aces, modify to accomodate
-    %both human and ai players
+    players_turn = true;
+    while players_turn && neither_have_busted
+        if enticed(dealer_faceup, players_cards)
+            [new_card, deck] = hit(deck);
+            players_cards = check_for_ace([players_cards; new_card]);
+            
+            if sum(players_cards) > 21
+                neither_have_busted = false;
+                player_busted = true;
+                fprintf('You busted.\n')
+            end
+        else
+            players_turn = false;
+        end
+    end
+    
+    dealers_turn = true;
+    while dealers_turn && neither_have_busted
+        if sum(dealers_cards) <= sum(players_cards) && sum(dealers_cards ~= 21)
+            [new_card, deck] = hit(deck);
+            dealers_cards = [dealers_cards; new_card];
+            
+            if sum(dealers_cards) > 21
+                neither_have_busted = false;
+                dealer_busted = true;
+                fprintf('Dealer busts. You win\n')
+            end
+        else
+            fprintf('Dealer''s hand wins\n')
+            dealers_turn = false;
+        end
+    end
+    
+end
+fprintf('done\n')
+%for list of rules
+%http://wizardofodds.com/games/blackjack/basics/
+
+%to-do: overload sum function to account for aces, modify to accomodate
+%both human and ai players
