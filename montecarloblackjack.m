@@ -35,7 +35,7 @@ while converging(condition)
             continue
         else
             fprintf('Draw')
-            % neutral reward
+            % reward += 0
             continue
         end
     end
@@ -69,9 +69,14 @@ while converging(condition)
                 
             % check if dealer has blackjack but player does not
             elseif sum(dealers_cards) == 21
-                fprintf('Dealer''s blackjack. You lose')
-                % reward -= 1
-                dealers_turn = false;
+                if sum(players_cards) == 21
+                    fprintf('The game is a draw')
+                    % reward += 0
+                else
+                    fprintf('Dealer''s blackjack. You lose')
+                    % reward -= 1
+                    dealers_turn = false;
+                end
             end
         else
             fprintf('Dealer''s hand wins\n')
