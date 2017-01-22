@@ -2,7 +2,12 @@ clear; clc; close all;
 
 %Optimal policy for blackjack using monte carlo
 
-while converging(condition)
+dealer_blackjack = false;
+player_blackjack = false;
+
+count = 0;
+while count < 1
+    count = count + 1;
     deck = 4 * ones(13, 1);
     
     %dealer draws two cards
@@ -15,6 +20,8 @@ while converging(condition)
     players_cards = check_for_aces(players_cards)
     
     neither_have_busted = true;
+    dealer_blackjack = false;
+    player_blackjack = false;
     
     if sum(dealers_cards) == 21
         dealer_blackjack = true;
@@ -26,15 +33,15 @@ while converging(condition)
     
     if player_blackjack || dealer_blackjack
         if player_blackjack && ~dealer_blackjack
-            fprintf('You win with an opening blackjack')
+            fprintf('You win with an opening blackjack\n')
             % reward += 1
             continue
-        elseif ~player_black && dealer_blackjack
-            fprintf('Dealer wins with an opening blackjack')
+        elseif ~player_blackjack && dealer_blackjack
+            fprintf('Dealer wins with an opening blackjack\n')
             % reward -= 1
             continue
         else
-            fprintf('Draw')
+            fprintf('Opening draw')
             % reward += 0
             continue
         end
@@ -45,7 +52,7 @@ while converging(condition)
     while players_turn && neither_have_busted
         if enticed(dealer_faceup, players_cards)
             [new_card, deck] = hit(deck);
-            players_cards = check_for_ace([players_cards; new_card]);
+            players_cards = check_for_aces([players_cards; new_card]);
             
             if sum(players_cards) > 21
                 neither_have_busted = false;
@@ -70,10 +77,11 @@ while converging(condition)
             % check if dealer has blackjack but player does not
             elseif sum(dealers_cards) == 21
                 if sum(players_cards) == 21
-                    fprintf('The game is a draw')
+                    fprintf('The game is a draw\n')
+                    dealers_turn = false;
                     % reward += 0
                 else
-                    fprintf('Dealer''s blackjack. You lose')
+                    fprintf('Dealer''s blackjack. You lose\n')
                     % reward -= 1
                     dealers_turn = false;
                 end
@@ -85,7 +93,6 @@ while converging(condition)
     end
     
 end
-fprintf('done\n')
 %for list of rules
 %http://wizardofodds.com/games/blackjack/basics/
 
