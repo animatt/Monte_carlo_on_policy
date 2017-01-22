@@ -1,0 +1,3 @@
+function stand()
+
+end
