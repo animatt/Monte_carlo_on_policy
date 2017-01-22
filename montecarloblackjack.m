@@ -15,8 +15,6 @@ while converging(condition)
     players_cards = check_for_aces(players_cards)
     
     neither_have_busted = true;
-    player_busted = false;
-    dealer_busted = false;
     
     if sum(dealers_cards) == 21
         dealer_blackjack = true;
@@ -51,7 +49,6 @@ while converging(condition)
             
             if sum(players_cards) > 21
                 neither_have_busted = false;
-                player_busted = true;
                 fprintf('You busted.\n')
             end
         else
@@ -68,11 +65,13 @@ while converging(condition)
             
             if sum(dealers_cards) > 21
                 neither_have_busted = false;
-                dealer_busted = true;
                 fprintf('Dealer busts. You win\n')
+                
+            % check if dealer has blackjack but player does not
             elseif sum(dealers_cards) == 21
                 fprintf('Dealer draws blackjack. You lose')
                 % reward -= 1
+            end
         else
             fprintf('Dealer''s hand wins\n')
             dealers_turn = false;
