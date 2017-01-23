@@ -95,6 +95,3 @@ while count < 1
 end
 %for list of rules
 %http://wizardofodds.com/games/blackjack/basics/
-
-%to-do: overload sum function to account for aces, modify to accomodate
-%both human and ai players
