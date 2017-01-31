@@ -1,7 +1,7 @@
-function val = enticed(dealer, player)
-if sum(player) < 17
-    val = true;
+function decide_to_hit = enticed(dealer, player, policy)
+if policy(dealer, player)
+    decide_to_hit = true;
 else
-    val = false;
+    decide_to_hit = false;
 end
 end
