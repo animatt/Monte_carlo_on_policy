@@ -10,7 +10,7 @@ for ii = 1:number_of_draws
             if card_drawn > 10
                 card_drawn = 10;
             end
-            cards = [cards; card_drawn];
+            cards = check_for_aces([cards; card_drawn]);
             found = true;
         end
     end

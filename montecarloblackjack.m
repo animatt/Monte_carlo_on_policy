@@ -12,12 +12,10 @@ while count < 1
     
     %dealer draws two cards
     [dealers_cards, deck] = draw(deck, 2);
-    dealers_cards = check_for_aces(dealers_cards);
     dealer_faceup = dealers_cards(1)
     
     %player receives his own two cards
     [players_cards, deck] = draw(deck, 2);
-    players_cards = check_for_aces(players_cards)
     
     neither_have_busted = true;
     dealer_blackjack = false;
