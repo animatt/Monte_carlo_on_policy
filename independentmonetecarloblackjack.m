@@ -5,7 +5,9 @@ clear, clc, close all
 % chapter 5 of Introduction to Reinforcement Learning, RS Sutton.
 
 deck = 4 * ones(13, 1);
-reward = [];
+
+
+returns = zeros(9, 2, 2);
 
 while converging
     % game loop
@@ -21,17 +23,6 @@ while converging
     end
     
     if sum(players_cards) == 21 || sum(dealers_cards) == 21
-        blackjack = true;
-    end
-    
-    if blackjack
-        if sum(players_cards) == sum(dealers_cards)
-            % reward = reward
-        elseif sum(players_cards) > sum(dealers_cards)
-            reward = reward + 1;
-        else
-            reward = reward - 1;
-        end
         continue
     end
     
@@ -71,16 +62,16 @@ while converging
             if sum(players_cards) == sum(dealers_cards)
                 % reward = reward
             elseif sum(players_cards) > sum(dealers_cards)
-                reward = reward + 1;
+                returns = returns + 1;
             else
-                reward = reward - 1;
+                returns = returns - 1;
             end
         else % dealer won
-            reward = reward - 1;
+            returns = returns - 1;
         end
     elseif sum(players_cards) <= 21 % player won
-        reward = reward + 1;
+        returns = returns + 1;
     else % dealer won
-        reward = reward - 1;
+        returns = returns - 1;
     end
 end
