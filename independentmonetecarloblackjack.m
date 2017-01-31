@@ -27,7 +27,7 @@ while converging
         continue
     end
     
-    if ~isempty(find(players_cards == 11, 1))
+    if any(players_cards == 11)
         usable_ace = true;
     end
     
