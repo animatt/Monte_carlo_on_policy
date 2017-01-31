@@ -26,10 +26,14 @@ while converging
         continue
     end
     
+    if ~isempty(find(players_cards == 11, 1))
+        usable_ace = true;
+    end
+    
     % begin game
     players_turn = true;
     while players_turn && neither_have_busted
-        if enticed(dealers_cards, sum(players_cards))
+        if enticed(dealers_faceup, sum(players_cards))
             [players_cards, ~] = hit(deck);
             if sum(players_cards) > 21
                 neither_have_busted = false;
