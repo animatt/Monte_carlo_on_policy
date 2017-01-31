@@ -6,8 +6,9 @@ clear, clc, close all
 
 deck = 4 * ones(13, 1);
 
-
 returns = zeros(9, 2, 2);
+policy = ones(9, 2, 2);
+Qsa = zeros(9, 2, 2);
 
 while converging
     % game loop
