@@ -2,7 +2,8 @@ clear, clc, close all
 
 % Blackjack from an infinite boot. This is a simplified version of the
 % blackjack program in montecarloblackjack.m based on the example given in
-% chapter 5 of Introduction to Reinforcement Learning, RS Sutton.
+% chapter 5 of Introduction to Reinforcement Learning, RS Sutton that uses
+% the Monte Carlo ES algorithm.
 
 deck = 4 * ones(13, 1);
 
@@ -14,23 +15,13 @@ while converging
     % game loop
     blackjack = false;
     neither_have_busted = true;
+    episode_history = [];
     
-    [dealers_cards, ~] = draw(deck, 2);
-    dealers_faceup = dealers_cards(1);
-    
-    [player_cards, ~] = draw(deck, 2);
-    while sum(players_cards) <= 11
-        [players_cards, ~] = hit(deck);
-    end
-    
-    if sum(players_cards) == 21 || sum(dealers_cards) == 21
-        continue
-    end
-    
-    if any(players_cards == 11)
-        usable_ace = true;
-    end
-    
+    %generate initial state
+    dealers_faceup = randi([2 11]);
+    usable_ace = randi([0 1]);
+    players_cards = randi([12 20]);
+
     % begin game
     players_turn = true;
     while players_turn && neither_have_busted
