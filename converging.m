@@ -1,3 +1,3 @@
 function val = converging(condition)
-pass
+val = true;
 end
