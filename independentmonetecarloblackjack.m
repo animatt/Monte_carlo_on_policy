@@ -19,7 +19,7 @@ while converging
     
     %generate initial state
     dealers_faceup = randi([2 11]);
-    usable_ace = randi([0 1]);
+    usable_ace = randi([1 2]);
     players_cards = randi([12 20]);
     first_action = [randi([0 1]) 1]; % randomly hit or stick
 
@@ -41,6 +41,7 @@ while converging
                 players_turn = false;
             end
         else
+            episode_history = [episode_history; S_t 0];
             players_turn = false;
         end
         first_action(2) = 0;
@@ -60,22 +61,26 @@ while converging
         end
     end
     
+    
+    ii = sub2ind(size(returns), episode_history(:, 1), ...
+        episode_history(:, 2), usable_ace);
+    
     % determine winner
     if neither_have_busted
         if blackjack
             if sum(players_cards) == sum(dealers_cards)
-                % reward = reward
+                % do nothing; draw
             elseif sum(players_cards) > sum(dealers_cards)
-                returns = returns + 1;
+                returns(ii) = returns(ii) + 1;
             else
-                returns = returns - 1;
+                returns(ii) = returns(ii) - 1;
             end
         else % dealer won
-            returns = returns - 1;
+            returns(ii) = returns(ii) - 1;
         end
     elseif sum(players_cards) <= 21 % player won
-        returns = returns + 1;
+        returns(ii) = returns(ii) + 1;
     else % dealer won
-        returns = returns - 1;
+        returns(ii) = returns(ii) - 1;
     end
 end
