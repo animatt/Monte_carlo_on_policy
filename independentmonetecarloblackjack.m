@@ -25,8 +25,13 @@ while converging
     % begin game
     players_turn = true;
     while players_turn && neither_have_busted
+        S_t = sum(players_cards);
+        
         if enticed(dealers_faceup, sum(players_cards))
             [players_cards, ~] = hit(deck);
+            
+            episode_history = [episode_history; S_t 1];
+            
             if sum(players_cards) > 21
                 neither_have_busted = false;
             elseif sum(players_cards) == 21
