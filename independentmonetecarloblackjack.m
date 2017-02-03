@@ -28,8 +28,8 @@ while converging
     while players_turn && neither_have_busted
         S_t = sum(players_cards);
         
-        if (enticed(dealers_faceup, sum(players_cards)) && first_action(2)) ...
-                || (first_action(1) && first_action(2))
+        if (enticed(dealers_faceup, sum(players_cards), policy) ...
+                && first_action(2)) || (first_action(1) && first_action(2))
             [players_cards, ~] = hit(deck);
             
             episode_history = [episode_history; S_t 1];
