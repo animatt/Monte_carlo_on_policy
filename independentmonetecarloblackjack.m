@@ -64,7 +64,7 @@ while converging
     
     
     sa = sub2ind(size(returns), episode_history(:, 1), ...
-        episode_history(:, 2), usable_ace); % state action pairs
+        usable_ace, episode_history(:, 2)); % state action pairs
     
     % determine winner
     if neither_have_busted
@@ -83,4 +83,6 @@ while converging
     
     % improve state action value approx.
     Qsa(sa) = ((visits(sa) - 1) .* Q(sa) + returns(sa)) ./ visits(sa);
+    % improve policy
+    policy(:, usable_ace) = max(Qsa(:, usable_ace, :), 3);
 end
