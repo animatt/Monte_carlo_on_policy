@@ -62,7 +62,7 @@ while converging
     end
     
     
-    ii = sub2ind(size(returns), episode_history(:, 1), ...
+    sa = sub2ind(size(returns), episode_history(:, 1), ...
         episode_history(:, 2), usable_ace);
     
     % determine winner
@@ -71,16 +71,16 @@ while converging
             if sum(players_cards) == sum(dealers_cards)
                 % do nothing; draw
             elseif sum(players_cards) > sum(dealers_cards)
-                returns(ii) = returns(ii) + 1;
+                returns(sa) = returns(sa) + 1;
             else
-                returns(ii) = returns(ii) - 1;
+                returns(sa) = returns(sa) - 1;
             end
         else % dealer won
-            returns(ii) = returns(ii) - 1;
+            returns(sa) = returns(sa) - 1;
         end
     elseif sum(players_cards) <= 21 % player won
-        returns(ii) = returns(ii) + 1;
+        returns(sa) = returns(sa) + 1;
     else % dealer won
-        returns(ii) = returns(ii) - 1;
+        returns(sa) = returns(sa) - 1;
     end
 end
