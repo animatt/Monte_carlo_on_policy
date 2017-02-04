@@ -70,17 +70,15 @@ while converging
         if blackjack
             if sum(players_cards) == sum(dealers_cards)
                 % do nothing; draw
-            elseif sum(players_cards) > sum(dealers_cards)
-                returns(sa) = returns(sa) + 1;
             else
                 returns(sa) = returns(sa) - 1;
             end
         else % dealer won
             returns(sa) = returns(sa) - 1;
         end
-    elseif sum(players_cards) <= 21 % player won
+    elseif sum(players_cards) <= 21 % dealer busted
         returns(sa) = returns(sa) + 1;
-    else % dealer won
+    else % player busted
         returns(sa) = returns(sa) - 1;
     end
 end
