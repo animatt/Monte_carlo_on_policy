@@ -68,13 +68,9 @@ while converging
     
     % determine winner
     if neither_have_busted
-        if blackjack
-            if sum(players_cards) == sum(dealers_cards)
-                % do nothing; draw
-            else
-                returns(sa) = returns(sa) - 1;
-            end
-        else % dealer won
+        if blackjack && sum(players_cards) == sum(dealers_cards)
+            % draw
+        else
             returns(sa) = returns(sa) - 1;
         end
     elseif sum(players_cards) <= 21 % dealer busted
