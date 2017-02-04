@@ -8,6 +8,7 @@ clear, clc, close all
 deck = 4 * ones(13, 1);
 
 returns = zeros(9, 2, 2);
+visits = zeros(9, 2, 2);
 policy = ones(9, 2);
 Qsa = zeros(9, 2, 2);
 
@@ -63,7 +64,7 @@ while converging
     
     
     sa = sub2ind(size(returns), episode_history(:, 1), ...
-        episode_history(:, 2), usable_ace);
+        episode_history(:, 2), usable_ace); % state action pairs
     
     % determine winner
     if neither_have_busted
@@ -81,4 +82,9 @@ while converging
     else % player busted
         returns(sa) = returns(sa) - 1;
     end
+    
+    visits(sa) = visits(sa) + 1;
+    
+    % improve state action value approx.
+    Qsa(sa) = ((visits(sa) - 1) .* Q(sa) + returns(sa)) ./ visits(sa); 
 end
