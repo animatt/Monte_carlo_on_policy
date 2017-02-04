@@ -3,7 +3,7 @@ clear, clc, close all
 % Blackjack from an infinite boot. This is a simplified version of the
 % blackjack program in montecarloblackjack.m based on the example given in
 % chapter 5 of Introduction to Reinforcement Learning, RS Sutton that uses
-% the Monte Carlo ES algorithm.
+% the Monte Carlo ES algorithm to determine an optimal policy.
 
 deck = 4 * ones(13, 1);
 
@@ -86,5 +86,5 @@ while converging
     visits(sa) = visits(sa) + 1;
     
     % improve state action value approx.
-    Qsa(sa) = ((visits(sa) - 1) .* Q(sa) + returns(sa)) ./ visits(sa); 
+    Qsa(sa) = ((visits(sa) - 1) .* Q(sa) + returns(sa)) ./ visits(sa);
 end
