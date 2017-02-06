@@ -29,7 +29,7 @@ while converging
     while players_turn && neither_have_busted
         S_t = sum(players_cards);
         
-        if (enticed(dealers_faceup, sum(players_cards), policy) ...
+        if (enticed(dealers_faceup, sum(players_cards), useable_ace, policy)...
                 && first_action(2)) || (first_action(1) && first_action(2))
             [players_cards, ~] = hit(deck);
             
@@ -49,7 +49,7 @@ while converging
     end
     
     [new_card, ~] = hit(deck);
-    dealers_cards = [new_card, dealers_faceup];
+    dealers_cards = [new_card dealers_faceup];
     
     dealers_turn = true;
     while dealers_turn && neither_have_busted

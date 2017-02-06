@@ -1,5 +1,4 @@
 function [cards, deck] = draw(deck, number_of_draws)
-
 cards = [];
 for ii = 1:number_of_draws
     found = false;
