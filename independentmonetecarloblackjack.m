@@ -48,6 +48,9 @@ while converging
         first_action(2) = 0;
     end
     
+    [new_card, ~] = hit(deck);
+    dealers_cards = [new_card, dealers_faceup];
+    
     dealers_turn = true;
     while dealers_turn && neither_have_busted
         if sum(dealers_cards) < 21 && sum(dealers_cards) <= sum(players_cards)
