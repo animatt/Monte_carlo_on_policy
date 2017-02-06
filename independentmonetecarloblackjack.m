@@ -7,10 +7,10 @@ clear, clc, close all
 
 deck = 4 * ones(13, 1);
 
-returns = zeros(9, 2, 2);
-visits = zeros(9, 2, 2);
-policy = ones(9, 2);
-Qsa = zeros(9, 2, 2);
+returns = zeros(9, 10, 2, 2); % (player, dealer, useable_ace, action)
+visits = zeros(9, 10, 2, 2); % (player, dealer, usable_ace, action)
+policy = ones(9, 10, 2); % (player, dealer, useable_ace)
+Qsa = zeros(9, 10, 2, 2); % (player, dealer, useable_ace, action)
 
 while converging
     % game loop
