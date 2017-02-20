@@ -28,13 +28,12 @@ while converging
     % begin game
     players_turn = true;
     while players_turn && neither_have_busted
-        S_t = sum(players_cards);
         
-        if (enticed(dealers_faceup, sum(players_cards), useable_ace, policy)...
+        if (enticed(dealers_faceup, sum(players_cards), usable_ace, policy)...
                 && first_action(2)) || (first_action(1) && first_action(2))
             [players_cards, ~] = hit(deck);
             
-            episode_history = [episode_history; S_t 1];
+            episode_history = [episode_history; sum(players_cards) 1];
             
             if sum(players_cards) > 21
                 neither_have_busted = false;
@@ -43,7 +42,7 @@ while converging
                 players_turn = false;
             end
         else
-            episode_history = [episode_history; S_t 0];
+            episode_history = [episode_history; sum(players_cards) 0];
             players_turn = false;
         end
         first_action(2) = 0;
