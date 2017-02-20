@@ -88,7 +88,8 @@ while converging
     visits(sa) = visits(sa) + 1;
     
     % improve state action value approx.
-    Qsa(sa) = ((visits(sa) - 1) .* Q(sa) + returns(sa)) ./ visits(sa);
+    Qsa(sa) = ((visits(sa) - 1) .* Qsa(sa) + returns(sa)) ./ visits(sa);
     % improve policy
-    policy(:, usable_ace) = max(Qsa(:, usable_ace, :), 3);
+    policy(:, dealers_cards, usable_ace) = ...
+        max(Qsa(:, dealers_cards, usable_ace, :), 4);
 end
