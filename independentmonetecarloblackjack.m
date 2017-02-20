@@ -29,20 +29,22 @@ while converging
     players_turn = true;
     while players_turn && neither_have_busted
         
-        if (enticed(dealers_faceup, sum(players_cards), usable_ace, policy)...
+        if (enticed(dealers_faceup, players_cards, usable_ace, policy)...
                 && first_action(2)) || (first_action(1) && first_action(2))
-            [players_cards, ~] = hit(deck);
+            [new_card, ~] = hit(deck);
             
-            episode_history = [episode_history; sum(players_cards) 1];
+            episode_history = [episode_history; players_cards 1];
             
-            if sum(players_cards) > 21
+            players_cards = new_card + players_cards;
+            
+            if players_cards > 21
                 neither_have_busted = false;
-            elseif sum(players_cards) == 21
+            elseif players_cards == 21
                 blackjack = true;
                 players_turn = false;
             end
         else
-            episode_history = [episode_history; sum(players_cards) 0];
+            episode_history = [episode_history; players_cards 0];
             players_turn = false;
         end
         first_action(2) = 0;
@@ -53,7 +55,7 @@ while converging
     
     dealers_turn = true;
     while dealers_turn && neither_have_busted
-        if sum(dealers_cards) < 21 && sum(dealers_cards) <= sum(players_cards)
+        if sum(dealers_cards) < 21 && sum(dealers_cards) <= players_cards
             [dealers_cards, ~] = hit(deck);
             if sum(dealers_cards) > 21
                 neither_have_busted = false;
@@ -65,18 +67,19 @@ while converging
         end
     end
     
+    % state action pairs
+    sa = sub2ind(size(returns), episode_history(:, 1) - 11, ...
+        dealers_faceup - 1, usable_ace, episode_history(:, 2) + 1); 
     
-    sa = sub2ind(size(returns), episode_history(:, 1), ...
-        usable_ace, episode_history(:, 2)); % state action pairs
     
     % determine winner
     if neither_have_busted
-        if blackjack && sum(players_cards) == sum(dealers_cards)
+        if blackjack && players_cards == sum(dealers_cards)
             % draw
         else
             returns(sa) = returns(sa) - 1;
         end
-    elseif sum(players_cards) <= 21 % dealer busted
+    elseif players_cards <= 21 % dealer busted
         returns(sa) = returns(sa) + 1;
     else % player busted
         returns(sa) = returns(sa) - 1;
