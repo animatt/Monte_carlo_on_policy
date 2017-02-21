@@ -50,16 +50,16 @@ while converging
         first_action(2) = 0;
     end
     
-    [new_card, ~] = hit(deck);
-    dealers_cards = [new_card dealers_faceup];
+    dealers_cards = dealers_faceup;
     
     dealers_turn = true;
     while dealers_turn && neither_have_busted
-        if sum(dealers_cards) < 21 && sum(dealers_cards) <= players_cards
-            [dealers_cards, ~] = hit(deck);
-            if sum(dealers_cards) > 21
+        if dealers_cards < 21 && dealers_cards <= players_cards
+            [new_card, ~] = hit(deck);
+            dealers_cards = dealers_cards + new_card;
+            if dealers_cards > 21
                 neither_have_busted = false;
-            elseif sum(dealers_cards) == 21
+            elseif dealers_cards == 21
                 blackjack = true;
             end
         else
@@ -76,7 +76,7 @@ while converging
     
     % determine winner
     if neither_have_busted
-        if blackjack && players_cards == sum(dealers_cards)
+        if blackjack && players_cards == dealers_cards
             % draw
         else
             returns(sa) = returns(sa) - 1;
