@@ -68,8 +68,10 @@ while converging
     end
     
     % state action pairs
+    one = ones(size(episode_history, 1), 1);
     sa = sub2ind(size(returns), episode_history(:, 1) - 11, ...
-        dealers_faceup - 1, usable_ace, episode_history(:, 2) + 1); 
+        (dealers_faceup - 1) * one, usable_ace * one, ...
+        episode_history(:, 2) + 1); 
     
     
     % determine winner
@@ -91,5 +93,5 @@ while converging
     Qsa(sa) = ((visits(sa) - 1) .* Qsa(sa) + returns(sa)) ./ visits(sa);
     % improve policy
     policy(:, dealers_cards, usable_ace) = ...
-        max(Qsa(:, dealers_cards, usable_ace, :), 4);
+        max(Qsa(:, dealers_cards, usable_ace, :), [], 4);
 end
