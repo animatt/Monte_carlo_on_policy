@@ -92,6 +92,6 @@ while converging
     % improve state action value approx.
     Qsa(sa) = ((visits(sa) - 1) .* Qsa(sa) + returns(sa)) ./ visits(sa);
     % improve policy
-    policy(:, dealers_faceup, usable_ace) = ...
+    policy(:, dealers_faceup - 1, usable_ace) = ...
         max(Qsa(:, dealers_faceup - 1, usable_ace, :), [], 4);
 end
