@@ -54,7 +54,7 @@ while converging
     
     dealers_turn = true;
     while dealers_turn && neither_have_busted
-        if dealers_cards < 21 && dealers_cards <= players_cards
+        if dealers_cards <= players_cards
             [new_card, ~] = hit(deck);
             dealers_cards = dealers_cards + new_card;
             if dealers_cards > 21
@@ -92,6 +92,7 @@ while converging
     % improve state action value approx.
     Qsa(sa) = returns(sa) ./ visits(sa);
     % improve policy
-    policy(:, dealers_faceup - 1, usable_ace) = ...
-        max(Qsa(:, dealers_faceup - 1, usable_ace, :), [], 4);
+    [~, I] = max(Qsa(:, dealers_faceup - 1, usable_ace, :), [], 4);
+    
+    policy(:, dealers_faceup - 1, usable_ace) = I - 1;
 end
