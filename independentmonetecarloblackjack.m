@@ -30,7 +30,7 @@ while converging
     while players_turn && neither_have_busted
         
         if (enticed(dealers_faceup, players_cards, usable_ace, policy)...
-                && first_action(2)) || (first_action(1) && first_action(2))
+                && ~first_action(2)) || (first_action(1) && first_action(2))
             [new_card, ~] = hit(deck);
             
             episode_history = [episode_history; players_cards 1];
