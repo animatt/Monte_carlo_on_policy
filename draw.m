@@ -1,5 +1,5 @@
 function [cards, deck] = draw(deck, number_of_draws)
-cards = [];
+cards = zeros(number_of_draws, 1);
 for ii = 1:number_of_draws
     found = false;
     while ~found
@@ -9,7 +9,7 @@ for ii = 1:number_of_draws
             if card_drawn > 10
                 card_drawn = 10;
             end
-            cards = check_for_aces([cards; card_drawn]);
+            cards(ii) = check_for_aces(card_drawn);
             found = true;
         end
     end
