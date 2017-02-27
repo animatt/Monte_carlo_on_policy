@@ -9,7 +9,7 @@ for ii = 1:number_of_draws
             if card_drawn > 10
                 card_drawn = 10;
             end
-            cards(ii) = check_for_aces(card_drawn);
+            cards(ii) = card_drawn;
             found = true;
         end
     end
