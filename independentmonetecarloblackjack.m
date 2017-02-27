@@ -10,7 +10,7 @@ deck = 4 * ones(13, 1);
 % (player, dealer, useable_ace[, action])
 returns = zeros(9, 10, 2, 2);
 visits = zeros(9, 10, 2, 2);
-policy = ones(9, 10, 2);
+policy = zeros(9, 10, 2);
 Qsa = zeros(9, 10, 2, 2);
 
 while converging
@@ -54,7 +54,7 @@ while converging
     
     dealers_turn = true;
     while dealers_turn && neither_have_busted
-        if dealers_cards <= players_cards
+        if dealers_cards <= 16
             [new_card, ~] = hit(deck);
             dealers_cards = dealers_cards + new_card;
             if dealers_cards > 21
@@ -76,10 +76,12 @@ while converging
     
     % determine winner
     if neither_have_busted
-        if blackjack && players_cards == dealers_cards
-            % draw
-        else
+        if players_cards > dealers_cards
+            returns(sa) = returns(sa) + 1;
+        elseif players_cards < dealers_cards
             returns(sa) = returns(sa) - 1;
+        else
+            % draw
         end
     elseif players_cards <= 21 % dealer busted
         returns(sa) = returns(sa) + 1;
